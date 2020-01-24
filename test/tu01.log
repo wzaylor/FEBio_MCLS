@@ -1,0 +1,134 @@
+===========================================================================
+    ______ ______ ____   _       
+   / ____// ____// __ ) (_)____  
+  / /_   / __/  / __  |/ // __  
+ / __/  / /___ / /_/ // // /_/ / 
+/_/    /_____//_____//_/ ____/  
+    __  ___ ______ __    _____   
+   /  |/  // ____// /   / ___/   
+  / /|_/ // /    / /    __     
+ / /  / // /___ / /___ ___/ /    
+/_/  /_/ ____//_____//____/     
+      F I N I T E   E L E M E N T S   F O R   B I O M E C H A N I C S     
+      MCLS Modified                                                       
+                                                                          
+                 --- v e r s i o n - 2 . 9 . 0 . 11519 ---                 
+                                                                           
+                                                                           
+  http://febio.org                                                         
+  FEBio is a registered trademark.                                         
+  copyright (c) 2006-2019 - All rights reserved                            
+                                                                           
+===========================================================================
+
+
+Tutorial 1
+
+ FILES USED
+===========================================================================
+	Input file : tu01.feb
+	Plot file  : tu01.xplt
+	Log file   : tu01.log
+
+
+ MESH INFO
+===========================================================================
+	Number of materials ............................ : 1
+	Number of domains .............................. : 1
+	Number of nodes ................................ : 756
+	Number of solid elements ....................... : 500
+
+
+ CONTROL DATA
+===========================================================================
+	Module type .................................... : solid
+	Analysis type .................................. : quasi-static
+	Number of timesteps ............................ : 10
+	Time step size ................................. : 0.1
+	Auto time stepper activated .................... : yes
+	  Optimal nr of iterations ..................... : 10
+	  Minimum allowable step size .................. : 0.01
+	  Maximum allowable step size .................. : 0.1
+	Number of loadcurves ........................... : 1
+
+
+ SOLVER PARAMETERS
+===========================================================================
+	symmetric_stiffness ............................... : true
+	lstol ............................................. : 0.9
+	lsmin ............................................. : 0.01
+	lsiter ............................................ : 5
+	max_refs .......................................... : 15
+	max_ups ........................................... : 10
+	qn_max_buffer_size ................................ : 0
+	qn_cycle_buffer ................................... : true
+	cmax .............................................. : 100000
+	qnmethod .......................................... : 0
+	check_zero_diagonal ............................... : true
+	zero_diagonal_tol ................................. : 0
+	equation_scheme ................................... : 0
+	force_partition ................................... : 0
+	reform_each_time_step ............................. : true
+	diverge_reform .................................... : true
+	do_reforms ........................................ : true
+	dtol .............................................. : 0.001
+	etol .............................................. : 0.01
+	rtol .............................................. : 0
+	min_residual ...................................... : 1e-20
+	max_residual ...................................... : 0
+	rhoi .............................................. : -2
+	alpha ............................................. : 1
+	beta .............................................. : 0.25
+	gamma ............................................. : 0.5
+	logSolve .......................................... : false
+
+
+ OUTPUT DATA
+===========================================================================
+	plot level ................................ : major iterations
+	plotfile format ........................... : FEBIO
+		Nodal Variables:
+			displacement         (type = vec3f, format = NODE)
+			reaction forces      (type = vec3f, format = NODE)
+		Domain Variables:
+			current density      (type = vec3f, format = ITEM)
+			effective fluid pressure (type = float, format = NODE)
+			effective solute 1 concentration (type = float, format = NODE)
+			effective solute 2 concentration (type = float, format = NODE)
+			effective solute 3 concentration (type = float, format = NODE)
+			electric potential   (type = float, format = ITEM)
+			fixed charge density (type = float, format = ITEM)
+			fluid flux           (type = vec3f, format = ITEM)
+			fluid pressure       (type = float, format = ITEM)
+			relative volume      (type = float, format = ITEM)
+			solute 1 concentration (type = float, format = ITEM)
+			solute 2 concentration (type = float, format = ITEM)
+			solute 3 concentration (type = float, format = ITEM)
+			solute 1 flux        (type = vec3f, format = ITEM)
+			solute 2 flux        (type = vec3f, format = ITEM)
+			solute 3 flux        (type = vec3f, format = ITEM)
+			stress               (type = mat3fs, format = ITEM)
+
+
+ MATERIAL DATA
+===========================================================================
+  1 - Material 1 (type: neo-Hookean)
+	density ........................................... : 1
+	E ................................................. : 20000
+	v ................................................. : 0.3
+
+
+ LINEAR SOLVER DATA
+===========================================================================
+	Solver type ............................... : Pardiso
+	Matrix format ............................. : symmetric
+
+
+
+===== beginning time step 1 : 0.1 =====
+Reforming stiffness matrix: reformation #1
+
+===== reforming stiffness matrix:
+	Nr of equations ........................... : 2088
+	Nr of nonzeroes in stiffness matrix ....... : 65300
+
