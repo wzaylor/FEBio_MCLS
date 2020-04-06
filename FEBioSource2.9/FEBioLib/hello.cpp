@@ -36,14 +36,14 @@ int febio::Hello()
 	felog.printf("===========================================================================\n");
 	felog.printf("    ______ ______ ____   _       \n");
 	felog.printf("   / ____// ____// __ ) (_)____  \n");
-	felog.printf("  / /_   / __/  / __  |/ // __ \ \n");
+	felog.printf("  / /_   / __/  / __  |/ // __\\ \n");
 	felog.printf(" / __/  / /___ / /_/ // // /_/ / \n");
-	felog.printf("/_/    /_____//_____//_/ \____/  \n");
+	felog.printf("/_/    /_____//_____//_/\\____/  \n");
 	felog.printf("    __  ___ ______ __    _____   \n");
 	felog.printf("   /  |/  // ____// /   / ___/   \n");
-	felog.printf("  / /|_/ // /    / /    \__ \    \n");
+	felog.printf("  / /|_/ // /    / /   \\__\\    \n");
 	felog.printf(" / /  / // /___ / /___ ___/ /    \n");
-	felog.printf("/_/  /_/ \____//_____//____/     \n");
+	felog.printf("/_/  /_/\\____//_____//____/     \n");
 	felog.printf("      F I N I T E   E L E M E N T S   F O R   B I O M E C H A N I C S     \n");
 	felog.printf("      MCLS Modified                                                       \n");
 	felog.printf("                                                                          \n");
