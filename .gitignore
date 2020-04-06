@@ -1,7 +1,7 @@
 /FEBioSource2.9/build/lnx64
 /FEBioSource2.9/build/lib
-/FEBioSource2.9/build/include
-/FEBioSource2.9/build/bin
+# /FEBioSource2.9/build/include
+/FEBioSource2.9/build/bin/febio2.lnx64
 /Examples
 /Verify2
 Examples.zip
