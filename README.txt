@@ -1,5 +1,5 @@
-These things need to be installed before you can build FEBio.
-
+FEBio Setup
+----------------------------------------------------------------------------
 1) Install Intel Parallel Studio.
 This installs the Intel compiler and Intel MKL (Math Kernel Library).
 You may be able to get a Student license for Intel Parallel Studio.
