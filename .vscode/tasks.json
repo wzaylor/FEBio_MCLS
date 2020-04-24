@@ -5,18 +5,17 @@
             "type": "shell",
             "command": "bash .vscode/build.sh",
             "group": {
-                "kind": "build",
+                "kind": "test",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "runTest0",
             "type": "shell",
             "command": "bash .vscode/runTest0.sh",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
+            "group": "test",
+            "problemMatcher": []
         }
     ],
 }

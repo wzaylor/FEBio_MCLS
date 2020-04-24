@@ -4,6 +4,13 @@
 /FEBioSource2.9/build/bin/febio2.lnx64
 /Examples
 /Verify2
+# Ignore all of the files in /Notes
+/Notes/*
+# Don't ignore /Notes/Notes.tex and /Notes/Notes.pdf
+!/Notes/Notes.tex
+!/Notes/Notes.pdf
+!/Notes/MyLibrary.bib
+# Ignore log file
 Examples.zip
 Verify2.zip
 febio_source_2.9.zip

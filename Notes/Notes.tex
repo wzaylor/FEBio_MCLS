@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{setspace}
+\doublespacing % Set double spacing.
+\usepackage{color, soul}
+\usepackage{graphicx} %package to manage images
+\usepackage{amsmath} % make figures/tables stay in the section they are declared in.
+\usepackage{mathtools} % Allow the \prescript command
+\usepackage{amssymb} % symbols
+\usepackage{bm} % Bold values in math equations.
+\usepackage{textcomp} % allow for degree symbol, \textdegree
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem} % Enumerate with additional options
+\usepackage{hyperref} % Use \autoref to automatically put figure/table in front of the reference
+\usepackage{threeparttable} % Allow for notes to be placed at the bottom of a table
+\usepackage{multirow} % Allow for a multirow table
+\usepackage{tensor} % Use tensor notation to keep subscripts and superscripts in the appropriate order
+\usepackage[utf8]{inputenc} % utf8 support
+\usepackage[citestyle=authoryear,natbib=true,backend=biber]{biblatex} % The bibliography package and settings
+\addbibresource{MyLibrary.bib}
+
+\usepackage{listings} % Allow code blocks
+\usepackage{xcolor} % Coloration of codeb locks
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+\author{William Zaylor}
+\title{Estimation of Nonhomogeneous Prestrain in a Continuum Ligament Model}
+    
+\begin{document}
+\section*{Variables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Left Cauchy-Green deformation tensor $b^{ij} = G^{AB}F^i\mathstrut_A F^J\mathstrut_B$}
+
+    \paragraph{Definition}: FEBioSource2.9/FEBioMech/FEElasticMaterial.cpp, line 113
+
+    This function defines the left Cauchy-Green deformation tensor using the deformation gradient ($F^i\mathstrut_A = \frac{\partial \Phi^i}{\partial A^A}$).
+    \begin{equation*}
+        b^{ij} =  G^{AB}F^i\mathstrut_A F^J\mathstrut_B
+    \end{equation*}
+
+    \paragraph{Comments}
+    The inverse formulation uses the inverse deformation gradient ($f^A\mathstrut_i = \frac{\partial \varphi^A}{\partial x^i}$), therefore, the way that the left Cauchy-Green deformation tensor is calculated needs to be changed. Using the relation $(c^{-1})^{ij} = b^{ij}$, we can calculate the left Cauchy-Green deformation gradient using the inverse deformation gradient.
+    \begin{equation*}
+        \begin{split}
+            b^{ij} &= (c^{-1})^{ij} \\
+            c_{ij} &= G_{BA}f^A\mathstrut_i f^B\mathstrut_j
+        \end{split}
+    \end{equation*}
+
+    Calculation of $b^{ij}$ will likely change in the code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Deformation Gradient ($F^i\mathstrut_A$)}
+
+    \paragraph{Definition}: FEBioSource2.9/FECore/FESolidDomain.cpp, line 340
+
+    The original code defines the deformation gradient using the following equation:
+    \begin{equation*}
+        F^i\mathstrut_A = x^i \frac{\partial \prescript{\alpha}{}N}{\partial A^A}
+    \end{equation*}
+    Where $x^i$ is the coordinates of an element node in the deformed configuration, and the derivative of the shape function (specified by $\alpha$) is take with respect to the reference configuration ($A^A$).
+
+    The gradient of the shape function ($\frac{\partial \prescript{\alpha}{}N}{\partial A^A}$) is calculated using this equation:
+    \begin{equation*}
+        \frac{\partial \prescript{\alpha}{}N}{\partial A^A} = \frac{\partial \prescript{\alpha}{}N}{\partial \xi^\gamma}(J^{-1})^\gamma\mathstrut_A
+    \end{equation*}
+    Where $\xi^\gamma$ indicates the basis of the isoparametric element, and $(J^{-1})^\gamma\mathstrut_A$ is the element inverse Jacobian for the element (\autoref{sec:varElementInverseJacobian}).
+
+    \paragraph{Comments}
+    There may not need to be changes made to the deformation gradient variable. There are two values that depend on the configuration, $x^i$ and $(J^{-1})^\gamma\mathstrut_A$. In the code, the variable $x^i$ can be taken as the node's coordinate in the reference configuration, and the code would not have to be changed. Despite causing some confusion in variable names, this variable may not need to be changed. Similarly, the calculation to define $(J^{-1})^\gamma\mathstrut_A$ may not need to be changed in the code (see \autoref{sec:varElementInverseJacobian} for more detail).
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:varElementInverseJacobian}
+\subsection*{Element Inverse Jacobian}
+
+    \paragraph{Declaration}: FEBioSource2.9/FECore/FEElement.h, line 248, 
+    \begin{lstlisting}
+    vector<mat3d>	m_J0i;		//!< inverse of reference Jacobian 
+    \end{lstlisting}
+
+    \paragraph{Definition}: FEBioSource2.9/FECore/FESolidDomain.cpp, line 88
+    \begin{lstlisting}
+    el.m_J0i[n] = mat3d(Ji);
+    \end{lstlisting}
+
+    \paragraph{Comments}
+    The element's inverse Jacobian appears to be defined when the element mesh is initialized, meaning this occurs once before the problem is started to solve.
+
+    Given that the given geometry is taken to be in the deformed configuration, the calculation of this value may not change.
+    Technically the meaning of the value is different, so the variable name(s) may be misleading.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Code changes}
+
+\printbibliography
+\end{document}

@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/FEBioSource2.9/build/bin/febio2.lnx64",//"enter program name, for example ${workspaceFolder}/a.out",
-            "args": ["BeamBending.feb"],
+            "args": ["UniaxialLoad.feb"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/test",
             "environment": [],
