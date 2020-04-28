@@ -69,6 +69,7 @@ SOFTWARE.*/
 #include "FEMRVonMisesFibers.h"
 #include "FEMuscleMaterial.h"
 #include "FENeoHookean.h"
+#include "FENeoHookeanMCLS.h"
 #include "FENeoHookeanTransIso.h"
 #include "FENewtonianViscousSolid.h"
 #include "FENewtonianViscousSolidUC.h"
@@ -267,6 +268,7 @@ REGISTER_FECORE_CLASS(FECoupledMooneyRivlin          ,FEMATERIAL_ID, "coupled Mo
 REGISTER_FECORE_CLASS(FECoupledVerondaWestmann       ,FEMATERIAL_ID, "coupled Veronda-Westmann"      );
 REGISTER_FECORE_CLASS(FEMuscleMaterial               ,FEMATERIAL_ID, "muscle material"               );
 REGISTER_FECORE_CLASS(FENeoHookean                   ,FEMATERIAL_ID, "neo-Hookean"                   );
+REGISTER_FECORE_CLASS(FENeoHookeanMCLS                   ,FEMATERIAL_ID, "neo-HookeanMCLS"                   );
 REGISTER_FECORE_CLASS(FENeoHookeanTransIso           ,FEMATERIAL_ID, "neo-Hookean transiso"          );
 REGISTER_FECORE_CLASS(FENewtonianViscousSolid        ,FEMATERIAL_ID, "Newtonian viscous solid"       );
 REGISTER_FECORE_CLASS(FENewtonianViscousSolidUC      ,FEMATERIAL_ID, "Newtonian viscous solid uncoupled");
