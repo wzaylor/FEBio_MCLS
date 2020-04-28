@@ -5,7 +5,7 @@
             "type": "shell",
             "command": "bash .vscode/build.sh",
             "group": {
-                "kind": "test",
+                "kind": "build",
                 "isDefault": true
             },
             "problemMatcher": []
