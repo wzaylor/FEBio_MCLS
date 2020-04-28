@@ -33,6 +33,36 @@
 \begin{document}
 \section*{Variables}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Geometric Stiffness Matrix}
+    \paragraph{Definition}: FEBioSource2.9/FEBioMech/FEElasticSolidDomain.cpp, line 316
+    \begin{lstlisting}
+        //! calculates element's geometrical stiffness component for integration point n
+        void FEElasticSolidDomain::ElementGeometricalStiffness(FESolidElement &el, matrix &ke)
+    \end{lstlisting}
+
+    \paragraph{Comments}
+    The geometric stiffness matrix is one of the two terms that is used to linearize the continuum formulation of the weak form of problem. This term is presented in \cite[pg. 137, eq 4.107]{wriggers_nonlinear_2008}.
+    \begin{equation*}
+        \bar{g}_{IK} = \big(\nabla_{\bar{x}}N_I \big)^T \bar{\bm{\sigma}} \nabla_{\bar{x}}N_K
+    \end{equation*}
+    Notice that the terms in the above equation are derived with respect to the deformed configuration (denoted by the over-bar). This will have to be changed for the inverse formulation because otherwise, those terms will be derived with respect to the reference configuration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Material Stiffness Matrix}
+    \paragraph{Definition}: FEBioSource2.9/FEBioMech/FEElasticSolidDomain.cpp, line 354
+    \begin{lstlisting}
+        //! Calculates element material stiffness element matrix
+        void FEElasticSolidDomain::ElementMaterialStiffness(FESolidElement &el, matrix &ke)
+    \end{lstlisting}
+
+    \paragraph{Comments}
+    The material stiffness matrix is one of the two terms that is used to linearize the continuum formulation of the weak form of problem. This term is presented in \cite[pg. 138, eq 4.109]{wriggers_nonlinear_2008}.
+    \begin{equation*}
+        \bar{\bm{B}}_{0I}^T \bar{\bm{D}}^M \bar{\bm{B}}_{0K}
+    \end{equation*}
+    Notice that the terms in the above equation are derived with respect to the deformed configuration (denoted by the over-bar). This will have to be changed for the inverse formulation because otherwise, those terms will be derived with respect to the reference configuration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Left Cauchy-Green deformation tensor $b^{ij} = G^{AB}F^i\mathstrut_A F^J\mathstrut_B$}
 
     \paragraph{Definition}: FEBioSource2.9/FEBioMech/FEElasticMaterial.cpp, line 113
