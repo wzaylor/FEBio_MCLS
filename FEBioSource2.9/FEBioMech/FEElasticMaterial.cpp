@@ -127,6 +127,27 @@ mat3ds FEElasticMaterialPoint::LeftCauchyGreen()
 }
 
 //-----------------------------------------------------------------------------
+//! Calculates the left Cauchy-Green tensor at the current material point
+// NOTE:: This uses/assumes that "f" is the inverse deformation gradient.
+mat3ds FEElasticMaterialPoint::LeftCauchyGreenMCLS()
+{
+	// get the left Cauchy-Green tensor
+	// b = F*Ft
+	mat3d& f = m_F;
+	mat3d F;
+	F = f.inverse();
+	mat3ds b;
+	b.xx() = F[0][0]*F[0][0]+F[0][1]*F[0][1]+F[0][2]*F[0][2]; // = b[0][0]
+	b.yy() = F[1][0]*F[1][0]+F[1][1]*F[1][1]+F[1][2]*F[1][2]; // = b[1][1]
+	b.zz() = F[2][0]*F[2][0]+F[2][1]*F[2][1]+F[2][2]*F[2][2]; // = b[2][2]
+	b.xy() = F[0][0]*F[1][0]+F[0][1]*F[1][1]+F[0][2]*F[1][2]; // = b[0][1]
+	b.yz() = F[1][0]*F[2][0]+F[1][1]*F[2][1]+F[1][2]*F[2][2]; // = b[1][2]
+	b.xz() = F[0][0]*F[2][0]+F[0][1]*F[2][1]+F[0][2]*F[2][2]; // = b[0][2]
+
+	return b;
+}
+
+//-----------------------------------------------------------------------------
 //! Calculates the right Cauchy-Green tensor at the current material point
 
 mat3ds FEElasticMaterialPoint::DevRightCauchyGreen()
