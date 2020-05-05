@@ -51,7 +51,7 @@ public:
 
 	mat3ds RightCauchyGreen();
 	mat3ds LeftCauchyGreen ();
-	mat3ds LeftCauchyGreenMCLS (); // Calculate the left Cauchy-Green deformation gradient using the inverse deformation gradient.
+	mat3ds LeftCauchyGreenMCLS (); // **MCLS** Calculate the left Cauchy-Green deformation gradient using the inverse deformation gradient.
 
 	mat3ds DevRightCauchyGreen();
 	mat3ds DevLeftCauchyGreen ();

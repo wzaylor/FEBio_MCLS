@@ -36,7 +36,10 @@ END_PARAMETER_LIST();
 //-----------------------------------------------------------------------------
 FESolver::FESolver(FEModel* pfem) : FECoreBase(FESOLVER_ID), m_fem(*pfem)
 { 
-	m_bsymm = true; // assume symmetric stiffness matrix
+	// m_bsymm = true; // assume symmetric stiffness matrix
+	// **MCLS** The stiffness matrix is non-symmetric.
+	// TODO:: This should be defined as 'false' elsewhere.
+	m_bsymm = false; // assume symmetric stiffness matrix
 	m_niter = 0;
 
 	m_nref = 0;

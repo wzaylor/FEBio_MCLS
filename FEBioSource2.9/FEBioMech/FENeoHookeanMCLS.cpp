@@ -40,9 +40,9 @@ mat3ds FENeoHookeanMCLS::Stress(FEMaterialPoint& mp)
 {
 	FEElasticMaterialPoint& pt = *mp.ExtractData<FEElasticMaterialPoint>();
 
-	double detF = pt.m_J;
-	double detFi = 1.0/detF; // The determinant of the inverse deformation gradient.
-	double lndetF = log(detF);
+	double j = pt.m_J; // **MCLS** This is the determinant of the inverse deformation gradient (i.e. j = 1/J)
+	double J = 1.0/j; // **MCLS** The determinant of the deformation gradient (J = 1/j).
+	double lnJ = log(J);
 
 	// calculate left Cauchy-Green tensor
 	mat3ds b = pt.LeftCauchyGreenMCLS();
@@ -55,14 +55,15 @@ mat3ds FENeoHookeanMCLS::Stress(FEMaterialPoint& mp)
 	mat3dd I(1);
 
 	// calculate stress
-	mat3ds s = (b - I)*(mu*detFi) + I*(lam*lndetF*detFi);
+	mat3ds s = (b - I)*(mu*j) + I*(lam*lnJ*j);
 
 	return s;
 }
 
 //-----------------------------------------------------------------------------
-// NOTE:: This differs
-double FENeoHookeanMCLS::Tangent(FEMaterialPoint& mp)
+// NOTE:: This differs from the original code because the input 'D' is an input that is defined by reference.
+// This function does not return a tens4ds
+void FENeoHookeanMCLS::Tangent(FEMaterialPoint& mp, double D[6][6])
 {
 	FEElasticMaterialPoint& pt = *mp.ExtractData<FEElasticMaterialPoint>();
 
@@ -83,7 +84,6 @@ double FENeoHookeanMCLS::Tangent(FEMaterialPoint& mp)
 	int indices[6][2] = {{0,0}, {1,1}, {2,2}, {0,1}, {1,2}, {0,2}}; // The indices we need to setup the Voigt form of the Material stiffness matrix.
 	int i, j, k, l; // The indices that the values in 'indices' will be assigned to.
 
-	double D[6][6] = {0};
 	for (int ij_index = 0; ij_index<6; ++ij_index)
     {
 		i = indices[ij_index][0];
@@ -97,7 +97,34 @@ double FENeoHookeanMCLS::Tangent(FEMaterialPoint& mp)
 	}
 //            materialStiffnessMatrix[ij_index, kl_index] = -muLame*0.5*(c_ij_inv[i,k]*c_ij_inv[l,j] + c_ij_inv[i,l]*c_ij_inv[k,j]) - 0.5*lambdaLame*c_ij_inv[k,l]*identity[i,j]
 
-	return D;
+	return;
+}
+
+//-----------------------------------------------------------------------------
+// This is here to the project will build appropriately
+tens4ds FENeoHookeanMCLS::Tangent(FEMaterialPoint& mp)
+{
+	FEElasticMaterialPoint& pt = *mp.ExtractData<FEElasticMaterialPoint>();
+
+	// deformation gradient
+	double detF = pt.m_J;
+
+	// lame parameters
+	double lam = m_v*m_E/((1+m_v)*(1-2*m_v));
+	double mu  = 0.5*m_E/(1+m_v);
+
+	double lam1 = lam / detF;
+	double mu1  = (mu - lam*log(detF)) / detF;
+	
+	double D[6][6] = {0};
+	D[0][0] = lam1+2.*mu1; D[0][1] = lam1       ; D[0][2] = lam1       ;
+	D[1][0] = lam1       ; D[1][1] = lam1+2.*mu1; D[1][2] = lam1       ;
+	D[2][0] = lam1       ; D[2][1] = lam1       ; D[2][2] = lam1+2.*mu1;
+	D[3][3] = mu1;
+	D[4][4] = mu1;
+	D[5][5] = mu1;
+
+	return tens4ds(D);
 }
 
 //-----------------------------------------------------------------------------

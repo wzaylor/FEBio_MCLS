@@ -45,8 +45,11 @@ public:
 	//! calculate stress at material point
 	virtual mat3ds Stress(FEMaterialPoint& pt) override;
 
+	//! calculate tangent stiffness at material point
+	virtual tens4ds Tangent(FEMaterialPoint& pt) override;
+
 	//! calculate tangent stiffness at material point. **MCLS** This allows for a non-symmetric tangent stiffness matrix to be populated in D
-	virtual void Tangent(FEMaterialPoint& pt, double& D) override;
+	virtual void Tangent(FEMaterialPoint& pt, double D[6][6]);
 
 	//! calculate strain energy density at material point
 	virtual double StrainEnergyDensity(FEMaterialPoint& pt) override;

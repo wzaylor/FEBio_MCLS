@@ -45,7 +45,8 @@ public:
 	virtual tens4ds Tangent(FEMaterialPoint& pt) = 0;
 
 	//! calculate tangent stiffness at material point. **MCLS** This allows for a non-symmetric tangent stiffness matrix to be populated in D
-	virtual void Tangent(FEMaterialPoint& pt, double& D) = 0;
+	// If this virtual method isn't overwritten, then just have it return without doing anything
+	virtual void Tangent(FEMaterialPoint& pt, double D[6][6]) { return; }
 
     //! calculate the 2nd Piola-Kirchhoff stress at material point
     virtual mat3ds PK2Stress(FEMaterialPoint& pt, const mat3ds E);
